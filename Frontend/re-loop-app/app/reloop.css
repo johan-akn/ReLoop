@@ -113,44 +113,75 @@ body {
 }
 
 .btn-large {
-  padding: 1rem 3rem;
+  /* padding: 1rem; */
+  width: 40%;
+  gap: 0.75rem;
+  /* margin: 0 auto; */
   font-size: 1.125rem;
+  width: 40%;
+}
+
+.botoes-lading{
+  border-radius: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .landing-page {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+}
+
+.img-landing{
+  width: 50%;
+  display: flex;
   justify-content: center;
-  background-color: var(--primary-bg);
-  padding: 2rem;
-  text-align: center;
 }
 
 .landing-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  max-width: 600px;
+  width: 50%;
+  
+}
+
+.landing-image{
+  width: 90%;
+  margin-left: 10%;
+  margin-top: 10%;
 }
 
 .landing-logo {
-  font-size: 3rem;
+  width: 550px;
+  margin-left: 4%;
+  margin-bottom: -12rem;
+}
+
+.texto-logo{
+  margin-left: 3%;
+}
+
+.auth-logo{
+  margin-bottom: -9rem;
 }
 
 .landing-tagline {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   color: var(--text-light);
   font-weight: 300;
   opacity: 0.9;
+  margin-bottom: 1rem;
+  margin-left: 8%;
 }
 
 .landing-description {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 1rem;
-  max-width: 400px;
+  font-size: 1.2rem;
+  max-width: 540px;
+  margin-left: 8%;
+  margin-bottom: 5rem;
 }
 
 .auth-page {
@@ -785,7 +816,7 @@ body {
 }
 
 .item-image img {
-  width: 100%;
+  width: 40%;
   height: 100%;
   object-fit: cover;
 }
@@ -1051,7 +1082,6 @@ body {
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr auto;
 }
 
 @media (max-width: 720px) {
@@ -1076,14 +1106,14 @@ body {
   justify-content: center;
   cursor: pointer;
 }
+
 .info-modal-image {
   background: #e8e5de;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 12px;
-  grid-row: 1 / 2;
-} 
+}
 
 .info-modal-image img {
   max-width: 100%;
@@ -1106,9 +1136,8 @@ body {
 }
 
 .info-modal-body {
-  padding: 16px 16px 0 16px;
+  padding: 53px 16px 20px 16px;
   overflow-y: auto;
-  flex: 1;
 }
 
 .info-modal-header {
@@ -1191,7 +1220,7 @@ body {
 }
 
 .info-seller-section {
-  margin-top: 16px;
+  margin-top: 46%;
 }
 
 .info-section-title {
@@ -1249,7 +1278,6 @@ body {
   color: white;
   text-decoration: none;
 }
-
 
 
 .bottom-nav {
