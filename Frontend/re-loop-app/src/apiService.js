@@ -1,8 +1,24 @@
 const BASE_URL = (import.meta?.env?.VITE_API_URL || "http://localhost:3000") + "/api";
 
+// Função para obter o token do localStorage
+function getToken() {
+  return localStorage.getItem("authToken");
+}
+
 async function request(path, options = {}) {
+  const token = getToken();
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {}),
+  };
+  
+  // Adiciona o token no header Authorization se existir
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
   const res = await fetch(`${BASE_URL}${path}`, {
-    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+    headers,
     ...options,
   });
   if (!res.ok) {
@@ -41,6 +57,7 @@ export const ProductsAPI = ItemsAPI;
 // Auth
 export const AuthAPI = {
   login: (payload) => request("/auth/login", { method: "POST", body: JSON.stringify(payload) }),
+  getLoggedUser: () => request("/auth/loggedUser"),
 };
 
 export default { UsersAPI, ItemsAPI, AuthAPI };

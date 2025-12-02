@@ -1,6 +1,6 @@
 "use client"
 
-import { GlobalProvider, useGlobal } from "@/context/global-context"
+import { GlobalProvider, useGlobal } from "../context/global-context"
 import { Landing } from "@/components/reloop/Landing"
 import { Auth } from "@/components/reloop/Auth"
 import { Home } from "@/components/reloop/Home"

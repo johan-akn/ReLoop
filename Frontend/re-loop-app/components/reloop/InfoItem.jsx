@@ -1,7 +1,9 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { X, Phone, User } from "lucide-react"
-import { useGlobal } from "@/context/global-context"
+import { useGlobal } from "../../context/global-context"
+import { ItemsAPI } from "@/src/apiService"
 
 const getCategoryLabel = (categoria) => {
   const labels = {
@@ -32,9 +34,32 @@ const WhatsAppIcon = () => (
 export function InfoItem({ item, onClose }) {
   const { getUserById } = useGlobal()
   const seller = getUserById(item.fk_id_usuario)
+  const [fullItem, setFullItem] = useState(item)
+
+  // Carrega detalhes atualizados (garante campo troca_por)
+  useEffect(() => {
+    let ignore = false
+    const load = async () => {
+      try {
+        if (!item?.id_item) return
+        // Sempre recarrega para garantir campo troca_por atualizado
+        const fresh = await ItemsAPI.get(item.id_item)
+        if (!ignore && fresh) {
+          console.log("Item carregado:", fresh)
+          setFullItem(fresh)
+        }
+      } catch (e) {
+        console.error("Falha ao carregar detalhes do item:", e)
+      }
+    }
+    load()
+    return () => { ignore = true }
+  }, [item.id_item])
+
+  const data = fullItem
 
   const whatsappLink = seller?.telefone
-    ? `https://wa.me/${formatPhoneForWhatsApp(seller.telefone)}?text=Olá! Vi seu anúncio "${item.titulo}" no ReLoop e tenho interesse.`
+    ? `https://wa.me/${formatPhoneForWhatsApp(seller.telefone)}?text=Olá! Vi seu anúncio "${data.titulo}" no ReLoop e tenho interesse.`
     : null
 
   return (
@@ -45,8 +70,8 @@ export function InfoItem({ item, onClose }) {
         </button>
 
         <div className="info-modal-image">
-          {item.imagem ? (
-            <img src={item.imagem || "/placeholder.svg"} alt={item.titulo} />
+          {data.imagem ? (
+            <img src={data.imagem || "/placeholder.svg"} alt={data.titulo} />
           ) : (
             <div className="info-modal-placeholder">Sem imagem</div>
           )}
@@ -54,29 +79,30 @@ export function InfoItem({ item, onClose }) {
 
         <div className="info-modal-body">
           <div className="info-modal-header">
-            <h2 className="info-modal-title">{item.titulo}</h2>
-            <span className={`info-modal-type ${item.tipo_negocio === "Doacao" ? "type-doacao" : "type-troca"}`}>
-              {item.tipo_negocio === "Doacao" ? "Doação" : "Troca"}
+            <h2 className="info-modal-title">{data.titulo}</h2>
+            <span className={`info-modal-type ${data.tipo_negocio === "Doação" ? "type-doacao" : "type-troca"}`}>
+              {data.tipo_negocio === "Doação" ? "Doação" : "Troca"}
             </span>
           </div>
 
           <div className="info-modal-tags">
-            {item.categoria && (
-              <span className="info-tag-category">{getCategoryLabel(item.categoria)}</span>
+            {data.categoria && (
+              <span className="info-tag-category">{getCategoryLabel(data.categoria)}</span>
             )}
-            <span className="info-tag-condition">{item.condicao}</span>
+            <span className="info-tag-condition">{data.condicao}</span>
           </div>
 
           <div className="info-modal-divider"></div>
 
-          <p className="info-modal-description">{item.descricao}</p>
+          <p className="info-modal-description">{data.descricao}</p>
 
-          {item.tipo_negocio === "Troca" && item.troca_por && (
+          {console.log("Checando troca_por:", data.tipo_negocio, data.troca_por)}
+          {data.tipo_negocio === "Troca" && data.troca_por && String(data.troca_por).trim() !== "" && (
             <div className="info-exchange-box">
               <span className="info-exchange-icon">↔</span>
               <div>
                 <span className="info-exchange-label">Aceita em troca</span>
-                <p className="info-exchange-text">{item.troca_por}</p>
+                <p className="info-exchange-text">{data.troca_por}</p>
               </div>
             </div>
           )}

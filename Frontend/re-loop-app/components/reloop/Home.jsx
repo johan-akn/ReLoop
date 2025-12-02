@@ -2,13 +2,41 @@
 
 import { useState } from "react"
 import { Search, HomeIcon, Heart, Plus, User, X } from "lucide-react"
-import { useGlobal } from "@/context/global-context"
+import { useGlobal } from "../../context/global-context"
 import { Logo } from "./Logo"
 import { ItemCard } from "./ItemCard"
 import { InfoItem } from "./InfoItem"
 
 const categories = ["Todos", "Roupas", "Eletrônicos", "Livros", "Casa", "Esportes"]
 const businessTypes = ["Todos", "Doação", "Troca"]
+
+// Normaliza strings para comparação (remove acentos, espaços e usa minúsculas)
+const normalize = (str = "") =>
+  String(str)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase()
+
+// Suporta categorias escritas como chave (ex.: "roupas") ou rótulo (ex.: "Roupas")
+const categoryKeysToLabels = {
+  roupas: "Roupas",
+  eletronicos: "Eletrônicos",
+  livros: "Livros",
+  casa: "Casa & Jardim",
+  esportes: "Esportes & Lazer",
+  outros: "Outros",
+}
+
+// Para comparação, mapeia UI -> possíveis valores normalizados no banco
+const categoryComparisonMap = {
+  roupas: [normalize("roupas"), normalize("Roupas")],
+  eletronicos: [normalize("eletronicos"), normalize("Eletrônicos")],
+  livros: [normalize("livros"), normalize("Livros")],
+  casa: [normalize("casa"), normalize("Casa"), normalize("Casa & Jardim")],
+  esportes: [normalize("esportes"), normalize("Esportes"), normalize("Esportes & Lazer")],
+  outros: [normalize("outros"), normalize("Outros")],
+}
 
 export function Home() {
   const { items = [], navigate, currentView } = useGlobal()
@@ -18,13 +46,34 @@ export function Home() {
   const [selectedItem, setSelectedItem] = useState(null)
 
   const filteredItems = items.filter((item) => {
-    if (item.status === "finalizado") return false
+    if (normalize(item.status) === "finalizado") return false
+
+    const normalizedActiveCategory = normalize(activeCategory)
+    const normalizedActiveType = normalize(activeType)
+
+    // Categoria
+    const itemCat = normalize(item.categoria)
     const matchesCategory =
-      activeCategory === "Todos" || (item.categoria || "").toLowerCase() === activeCategory.toLowerCase()
-    const matchesType = activeType === "Todos" || item.tipo_negocio.toLowerCase() === activeType.toLowerCase()
+      normalizedActiveCategory === "todos" ||
+      (() => {
+        // tenta casar com as listas de comparação
+        const list = categoryComparisonMap[normalizedActiveCategory]
+        if (!list) return false
+        return list.includes(itemCat)
+      })()
+
+    // Tipo de negócio (suporta "Doacao" e "Doação")
+    const itemType = normalize(item.tipo_negocio)
+    const matchesType =
+      normalizedActiveType === "todos" ||
+      itemType === normalizedActiveType ||
+      (normalizedActiveType === "doacao" && itemType === "doacao")
+
+    // Busca
+    const q = normalize(searchQuery)
     const matchesSearch =
-      item.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.descricao.toLowerCase().includes(searchQuery.toLowerCase())
+      normalize(item.titulo).includes(q) || normalize(item.descricao).includes(q)
+
     return matchesCategory && matchesType && matchesSearch
   })
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { ArrowLeft, Upload } from "lucide-react"
-import { useGlobal } from "@/context/global-context"
+import { useGlobal } from "../../context/global-context"
 
 export function AddItem() {
   const { addItem, navigate } = useGlobal()

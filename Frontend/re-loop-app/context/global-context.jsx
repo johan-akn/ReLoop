@@ -57,6 +57,43 @@ export function GlobalProvider({ children }) {
     load()
   }, [])
 
+  // Validar token e recuperar usuário logado ao carregar a aplicação
+  useEffect(() => {
+    const validateToken = async () => {
+      const token = localStorage.getItem("authToken")
+      console.log("Verificando token no localStorage:", token)
+      
+      if (token) {
+        try {
+          console.log("Validando token com o backend...")
+          const resp = await AuthAPI.getLoggedUser()
+          console.log("Resposta da validação:", resp)
+          
+          if (resp?.user) {
+            console.log("Token válido! Restaurando sessão do usuário:", resp.user)
+            setCurrentUser(resp.user)
+            setIsAuthenticated(true)
+            
+            // Navegar para home se estiver em landing ou auth
+            if (location.pathname === "/landing" || location.pathname === "/auth") {
+              navigate("home", { replace: true })
+            }
+          } else {
+            // Token inválido, limpar localStorage
+            console.warn("Token inválido - limpando localStorage")
+            localStorage.removeItem("authToken")
+          }
+        } catch (e) {
+          console.error("Token inválido ou expirado:", e)
+          localStorage.removeItem("authToken")
+        }
+      } else {
+        console.log("Nenhum token encontrado no localStorage")
+      }
+    }
+    validateToken()
+  }, [])
+
   const navigate = (view, options) => {
     const path = viewToPath[view] ?? "/"
     if (path !== location.pathname) {
@@ -68,17 +105,26 @@ export function GlobalProvider({ children }) {
   const login = async (email, senha) => {
     try {
       const resp = await AuthAPI.login({ email, senha })
-      if (resp?.user) {
+      console.log("Resposta do login:", resp)
+      
+      if (resp?.user && resp?.token) {
+        // Salvar token no localStorage
+        localStorage.setItem("authToken", resp.token)
+        console.log("Token salvo no localStorage:", resp.token)
+        
         setCurrentUser(resp.user)
         setIsAuthenticated(true)
+        
         // opcional: garantir lista em memória atualizada
         if (!users.length) {
           try { setUsers(await UsersAPI.list()) } catch {}
         }
         navigate("home", { replace: true })
         return true
+      } else {
+        console.error("Login falhou: resposta não contém user ou token", resp)
+        return false
       }
-      return false
     } catch (e) {
       console.error("Erro no login:", e)
       return false
@@ -100,6 +146,8 @@ export function GlobalProvider({ children }) {
   }
 
   const logout = () => {
+    // Limpar token do localStorage
+    localStorage.removeItem("authToken")
     setCurrentUser(null)
     setIsAuthenticated(false)
     navigate("landing", { replace: true })

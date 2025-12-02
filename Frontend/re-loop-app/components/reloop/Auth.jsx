@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Mail, Lock, User, Eye, EyeOff, Phone } from "lucide-react"
-import { useGlobal } from "@/context/global-context"
+import { useGlobal } from "../../context/global-context"
 import { Logo } from "./Logo"
 
 export function Auth() {
@@ -26,11 +26,11 @@ export function Auth() {
     setError("")
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (isLogin) {
-      const success = login(formData.email, formData.senha)
+      const success = await login(formData.email, formData.senha)
       if (!success) {
         setError("Email ou senha inválidos")
       }
@@ -39,7 +39,7 @@ export function Auth() {
         setError("As senhas não coincidem")
         return
       }
-      register({
+      await register({
         nome: formData.nome,
         email: formData.email,
         senha: formData.senha,

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { ArrowLeft, User, Mail, Phone, Camera, Trash2, LogOut, Package, Edit, CheckCircle, X } from "lucide-react"
-import { useGlobal } from "@/context/global-context"
+import { useGlobal } from "../../context/global-context"
 
 export function Profile() {
   const {

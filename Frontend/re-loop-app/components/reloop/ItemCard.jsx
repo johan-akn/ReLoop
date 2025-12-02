@@ -1,7 +1,7 @@
 "use client"
 
 import { ImageIcon, Heart } from "lucide-react"
-import { useGlobal } from "@/context/global-context"
+import { useGlobal } from "../../context/global-context"
 
 const getCategoryLabel = (categoria) => {
   const labels = {

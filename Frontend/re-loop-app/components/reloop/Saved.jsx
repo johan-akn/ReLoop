@@ -2,7 +2,7 @@
 
 import { ArrowLeft } from "lucide-react"
 import { useState } from "react"
-import { useGlobal } from "@/context/global-context"
+import { useGlobal } from "../../context/global-context"
 import { ItemCard } from "./ItemCard"
 import { InfoItem } from "./InfoItem"
 
