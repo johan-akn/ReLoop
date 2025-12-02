@@ -16,6 +16,17 @@ export function AddItem() {
     imagem: "",
   })
 
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setFormData({ ...formData, imagem: reader.result })
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     addItem({
@@ -44,13 +55,30 @@ export function AddItem() {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="form-label">Fotos</label>
-            <div className="image-upload">
-              <div className="image-upload-icon">
-                <Upload size={32} />
-              </div>
-              <p className="image-upload-text">Clique para adicionar fotos</p>
-              <p className="image-upload-hint">PNG, JPG até 10MB</p>
-            </div>
+            <input
+              type="file"
+              id="image-upload"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
+            <label htmlFor="image-upload" className="image-upload">
+              {formData.imagem ? (
+                <img
+                  src={formData.imagem}
+                  alt="Preview"
+                  style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "8px" }}
+                />
+              ) : (
+                <>
+                  <div className="image-upload-icon">
+                    <Upload size={32} />
+                  </div>
+                  <p className="image-upload-text">Clique para adicionar fotos</p>
+                  <p className="image-upload-hint">PNG, JPG até 10MB</p>
+                </>
+              )}
+            </label>
           </div>
 
           <div className="form-group">

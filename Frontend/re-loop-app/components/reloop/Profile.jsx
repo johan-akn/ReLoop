@@ -57,6 +57,17 @@ export function Profile() {
     })
   }
 
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setEditingItem({ ...editingItem, imagem: reader.result })
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
   const handleSaveItem = () => {
     updateItem(editingItem.id_item, editingItem)
     setEditingItem(null)
@@ -262,6 +273,33 @@ export function Profile() {
 
             <div className="edit-form">
               <div className="form-group">
+                <label className="form-label">Imagem</label>
+                <input
+                  type="file"
+                  id="edit-image-upload"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+                <label htmlFor="edit-image-upload" className="image-upload" style={{ cursor: "pointer" }}>
+                  {editingItem.imagem ? (
+                    <img
+                      src={editingItem.imagem}
+                      alt="Preview"
+                      style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
+                    />
+                  ) : (
+                    <>
+                      <div className="image-upload-icon">
+                        <Camera size={32} />
+                      </div>
+                      <p className="image-upload-text">Clique para alterar a imagem</p>
+                    </>
+                  )}
+                </label>
+              </div>
+
+              <div className="form-group">
                 <label className="form-label">Título</label>
                 <input
                   type="text"
@@ -315,7 +353,7 @@ export function Profile() {
                   <button
                     type="button"
                     className={`toggle-option ${editingItem.tipo_negocio === "Doacao" ? "active" : ""}`}
-                    onClick={() => setEditingItem({ ...editingItem, tipo_negocio: "Doacao" })}
+                    onClick={() => setEditingItem({ ...editingItem, tipo_negocio: "Doacao", troca_por: "" })}
                   >
                     Doação
                   </button>
@@ -327,6 +365,47 @@ export function Profile() {
                     Troca
                   </button>
                 </div>
+              </div>
+
+              {editingItem.tipo_negocio === "Troca" && (
+                <div className="form-group">
+                  <label className="form-label">O que você quer em troca?</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Ex: Roupas similares, eletrônicos, livros..."
+                    value={editingItem.troca_por || ""}
+                    onChange={(e) => setEditingItem({ ...editingItem, troca_por: e.target.value })}
+                  />
+                  <p className="form-hint">Descreva o que você gostaria de receber pelo seu item</p>
+                </div>
+              )}
+
+              <div className="form-group">
+                <label className="form-label">Imagem</label>
+                <input
+                  type="file"
+                  id="edit-item-image-upload"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+                <label htmlFor="edit-item-image-upload" className="image-upload" style={{ cursor: "pointer" }}>
+                  {editingItem.imagem ? (
+                    <img
+                      src={editingItem.imagem}
+                      alt="Preview"
+                      style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
+                    />
+                  ) : (
+                    <>
+                      <div className="image-upload-icon">
+                        <Camera size={32} />
+                      </div>
+                      <p className="image-upload-text">Clique para alterar a imagem</p>
+                    </>
+                  )}
+                </label>
               </div>
 
               <div className="modal-actions">
