@@ -1,22 +1,35 @@
+const express = require("express");
+const cors = require("cors");
 
-const express = require('express');
-
-
-const pool = require('./config/database'); 
-
+const pool = require("./config/database");
 
 const app = express();
-const PORT = process.env.PORT || 3001; 
+const PORT = process.env.PORT || 3000;
 
-// Middlewares básicos
-app.use(express.json()); // Permite que o Express leia dados JSON no corpo da requisição
+// Middlewares
+// CORS amplo (sem credenciais) e deixa a lib responder preflight
+app.use(cors());
 
-// Rota de teste simples
-app.get('/', (req, res) => {
-    res.send('API RELOOP Online! Conectado ao BD se não houver erros no console.');
+// Log simples de requests para depuração
+app.use((req, _res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
+app.use(express.json());
+
+// Healthcheck
+app.get("/", (req, res) => {
+  res.send(
+    "API RELOOP Online! Conectado ao BD se não houver erros no console."
+  );
 });
 
-// Inicia o servidor
+// Routers
+app.use("/api/users", require("./routes/users"));
+app.use("/api/items", require("./routes/items"));
+app.use("/api/auth", require("./routes/auth"));
+
+// Start
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor rodando na porta ${PORT}`);
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
