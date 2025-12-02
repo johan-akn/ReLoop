@@ -132,6 +132,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: row;
+  background-color: #E6D3B5;
 }
 
 .img-landing{
@@ -169,7 +170,7 @@ body {
 
 .landing-tagline {
   font-size: 2.5rem;
-  color: var(--text-light);
+  color: #212842;
   font-weight: 300;
   opacity: 0.9;
   margin-bottom: 1rem;
@@ -177,7 +178,7 @@ body {
 }
 
 .landing-description {
-  color: rgba(255, 255, 255, 0.7);
+  color: #212842;
   font-size: 1.2rem;
   max-width: 540px;
   margin-left: 8%;

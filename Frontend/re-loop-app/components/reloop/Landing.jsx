@@ -12,7 +12,7 @@ export function Landing() {
         <div className="texto-logo">
           <div className="landing-logo">
             <img
-              src="./public/ReLoop_branca.svg"
+              src="./public/Logo_Reloop_preta.svg"
               alt="ReLoop_branca.svg"
               className="landing-logo"
             />
