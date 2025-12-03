@@ -8,9 +8,9 @@ import ReLoopApp from '@/app/page.jsx'
 
 const rootEl = document.getElementById('root')
 createRoot(rootEl).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ReLoopApp />
-    </BrowserRouter>
-  </React.StrictMode>
+ <React.StrictMode>
+ <BrowserRouter>
+ <ReLoopApp />
+ </BrowserRouter>
+ </React.StrictMode>
 )

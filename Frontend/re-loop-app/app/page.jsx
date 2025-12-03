@@ -10,40 +10,40 @@ import { Saved } from "@/components/reloop/Saved"
 import "@/app/reloop.css"
 
 function AppContent() {
-  const { currentView, isAuthenticated } = useGlobal()
+ const { currentView, isAuthenticated } = useGlobal()
 
-  if (!isAuthenticated && currentView !== "landing" && currentView !== "auth") {
-    return <Landing />
-  }
+ if (!isAuthenticated && currentView !== "landing" && currentView !== "auth") {
+ return <Landing />
+ }
 
-  if (isAuthenticated && (currentView === "landing" || currentView === "auth")) {
-    return <Home />
-  }
+ if (isAuthenticated && (currentView === "landing" || currentView === "auth")) {
+ return <Home />
+ }
 
-  switch (currentView) {
-    case "landing":
-      return <Landing />
-    case "auth":
-      return <Auth />
-    case "home":
-      return <Home />
-    case "add-item":
-      return <AddItem />
-    case "profile":
-      return <Profile />
-    case "saved":
-      return <Saved />
-    default:
-      return <Home />
-  }
+ switch (currentView) {
+ case "landing":
+ return <Landing />
+ case "auth":
+ return <Auth />
+ case "home":
+ return <Home />
+ case "add-item":
+ return <AddItem />
+ case "profile":
+ return <Profile />
+ case "saved":
+ return <Saved />
+ default:
+ return <Home />
+ }
 }
 
 export default function ReLoopApp() {
-  return (
-    <GlobalProvider>
-      <div className="reloop-app">
-        <AppContent />
-      </div>
-    </GlobalProvider>
-  )
+ return (
+ <GlobalProvider>
+ <div className="reloop-app">
+ <AppContent />
+ </div>
+ </GlobalProvider>
+ )
 }
