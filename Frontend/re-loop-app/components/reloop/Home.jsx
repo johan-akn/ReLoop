@@ -6,6 +6,7 @@ import { useGlobal } from "../../context/global-context"
 import { Logo } from "./Logo"
 import { ItemCard } from "./ItemCard"
 import { InfoItem } from "./InfoItem"
+import { LoopAI } from "./LoopAI"
 
 export function Profile() {
   const {
@@ -90,6 +91,7 @@ export function Home() {
       <header className="top-bar">
         <img src="./public/Reloop_branca.svg" alt="Reloop Logo" className="logo-branca-home" />
         <div className="top-bar-actions">
+          <LoopAI />
           <button className="icon-btn" onClick={() => navigate("add-item")}>
             <Plus size={20} />
           </button>

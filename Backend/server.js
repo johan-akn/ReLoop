@@ -35,6 +35,7 @@ app.use("/api/users", require("./routes/users"));
 app.use("/api/items", require("./routes/items"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/upload", require("./routes/upload")(upload, cloudinary));
+app.use("/api/loopai", require("./routes/loopai"));
 
 // Start
 app.listen(PORT, () => {
