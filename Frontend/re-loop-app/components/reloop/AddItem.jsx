@@ -3,9 +3,11 @@
 import { useState } from "react"
 import { ArrowLeft, Upload } from "lucide-react"
 import { useGlobal } from "../../context/global-context"
+import { uploadImage } from "../../src/apiService"
 
 export function AddItem() {
   const { addItem, navigate } = useGlobal()
+  const [uploading, setUploading] = useState(false)
   const [formData, setFormData] = useState({
     titulo: "",
     descricao: "",
@@ -15,10 +17,12 @@ export function AddItem() {
     troca_por: "",
     imagem: "",
   })
+  const [imageFile, setImageFile] = useState(null)
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0]
     if (file) {
+      setImageFile(file)
       const reader = new FileReader()
       reader.onloadend = () => {
         setFormData({ ...formData, imagem: reader.result })
@@ -27,19 +31,37 @@ export function AddItem() {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    addItem({
-      titulo: formData.titulo,
-      descricao: formData.descricao,
-      tipo_negocio: formData.tipo_negocio,
-      condicao: formData.condicao,
-      categoria: formData.categoria,
-      imagem: formData.imagem || "/diverse-items-still-life.png",
-      troca_por: formData.troca_por,
-    })
-    alert("Item adicionado com sucesso!")
-    navigate("home")
+    
+    setUploading(true)
+    let imageUrl = "/diverse-items-still-life.png"
+
+    try {
+      // Upload da imagem para o Cloudinary se houver
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile)
+      }
+
+      // Adiciona o item com a URL da imagem do Cloudinary
+      addItem({
+        titulo: formData.titulo,
+        descricao: formData.descricao,
+        tipo_negocio: formData.tipo_negocio,
+        condicao: formData.condicao,
+        categoria: formData.categoria,
+        imagem: imageUrl,
+        troca_por: formData.troca_por,
+      })
+      
+      alert("Item adicionado com sucesso!")
+      navigate("home")
+    } catch (error) {
+      console.error("Erro ao adicionar item:", error)
+      alert("Erro ao fazer upload da imagem. Tente novamente.")
+    } finally {
+      setUploading(false)
+    }
   }
 
   return (
@@ -186,8 +208,8 @@ export function AddItem() {
             </div>
           )}
 
-          <button type="submit" className="btn btn-primary submit-btn">
-            Adicionar Item
+          <button type="submit" className="btn btn-primary submit-btn" disabled={uploading}>
+            {uploading ? "Enviando..." : "Adicionar Item"}
           </button>
         </form>
       </div>

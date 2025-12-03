@@ -60,4 +60,44 @@ export const AuthAPI = {
   getLoggedUser: () => request("/auth/loggedUser"),
 };
 
-export default { UsersAPI, ItemsAPI, AuthAPI };
+/**
+ * Upload de imagem para o Cloudinary
+ * @param {File} file 
+ * @returns {Promise<string>} URL da imagem no Cloudinary
+ */
+export const uploadImage = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const token = getToken();
+  const headers = {};
+  
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/upload`, {
+      method: 'POST',
+      headers,
+      body: formData
+    });
+
+    if (!response.ok) {
+      let message = `HTTP ${response.status}`;
+      try {
+        const data = await response.json();
+        message = data?.error || message;
+      } catch (_) {}
+      throw new Error(message);
+    }
+
+    const data = await response.json();
+    return data.url;
+  } catch (error) {
+    console.error('Erro ao fazer upload da imagem:', error);
+    throw error;
+  }
+};
+
+export default { UsersAPI, ItemsAPI, AuthAPI, uploadImage };

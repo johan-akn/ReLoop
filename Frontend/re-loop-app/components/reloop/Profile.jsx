@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { ArrowLeft, User, Mail, Phone, Camera, Trash2, LogOut, Package, Edit, CheckCircle, X } from "lucide-react"
 import { useGlobal } from "../../context/global-context"
+import { uploadImage } from "../../src/apiService"
 
 export function Profile() {
   const {
@@ -22,6 +23,8 @@ export function Profile() {
   const [showItemsModal, setShowItemsModal] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
   const [deleteItemId, setDeleteItemId] = useState(null)
+  const [uploading, setUploading] = useState(false)
+  const [imageFile, setImageFile] = useState(null)
   const [userData, setUserData] = useState({
     nome: currentUser?.nome || "",
     email: currentUser?.email || "",
@@ -55,11 +58,13 @@ export function Profile() {
     setEditingItem({
       ...item,
     })
+    setShowItemsModal(false) // Fecha o modal de itens ao abrir o de edição
   }
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0]
     if (file) {
+      setImageFile(file)
       const reader = new FileReader()
       reader.onloadend = () => {
         setEditingItem({ ...editingItem, imagem: reader.result })
@@ -68,9 +73,34 @@ export function Profile() {
     }
   }
 
-  const handleSaveItem = () => {
-    updateItem(editingItem.id_item, editingItem)
+  const handleSaveItem = async () => {
+    setUploading(true)
+    
+    try {
+      let imageUrl = editingItem.imagem
+
+      // Se houver um novo arquivo de imagem, faz o upload
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile)
+      }
+
+      // Atualiza o item com a URL da imagem
+      updateItem(editingItem.id_item, { ...editingItem, imagem: imageUrl })
+      setEditingItem(null)
+      setImageFile(null)
+      setShowItemsModal(true) // Reabre o modal de itens
+    } catch (error) {
+      console.error("Erro ao salvar item:", error)
+      alert("Erro ao fazer upload da imagem. Tente novamente.")
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleCancelEdit = () => {
     setEditingItem(null)
+    setImageFile(null)
+    setShowItemsModal(true) // Reabre o modal de itens
   }
 
   const handleDeleteItem = (itemId) => {
@@ -262,11 +292,11 @@ export function Profile() {
       )}
 
       {editingItem && (
-        <div className="modal-overlay" onClick={() => setEditingItem(null)}>
+        <div className="modal-overlay" onClick={handleCancelEdit}>
           <div className="modal modal-edit" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3 className="modal-title">Editar Item</h3>
-              <button className="modal-close-btn" onClick={() => setEditingItem(null)}>
+              <button className="modal-close-btn" onClick={handleCancelEdit}>
                 <X size={20} />
               </button>
             </div>
@@ -381,39 +411,12 @@ export function Profile() {
                 </div>
               )}
 
-              <div className="form-group">
-                <label className="form-label">Imagem</label>
-                <input
-                  type="file"
-                  id="edit-item-image-upload"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
-                />
-                <label htmlFor="edit-item-image-upload" className="image-upload" style={{ cursor: "pointer" }}>
-                  {editingItem.imagem ? (
-                    <img
-                      src={editingItem.imagem}
-                      alt="Preview"
-                      style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
-                    />
-                  ) : (
-                    <>
-                      <div className="image-upload-icon">
-                        <Camera size={32} />
-                      </div>
-                      <p className="image-upload-text">Clique para alterar a imagem</p>
-                    </>
-                  )}
-                </label>
-              </div>
-
               <div className="modal-actions">
-                <button className="btn btn-secondary" onClick={() => setEditingItem(null)}>
+                <button className="btn btn-secondary" onClick={handleCancelEdit}>
                   Cancelar
                 </button>
-                <button className="btn btn-primary" onClick={handleSaveItem}>
-                  Salvar
+                <button className="btn btn-primary" onClick={handleSaveItem} disabled={uploading}>
+                  {uploading ? "Salvando..." : "Salvar"}
                 </button>
               </div>
             </div>

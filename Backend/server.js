@@ -1,10 +1,16 @@
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
 
 const pool = require("./config/database");
+const cloudinary = require("./config/cloudinaryConfig");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Configuração do Multer para upload em memória
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Middlewares
 // CORS amplo (sem credenciais) e deixa a lib responder preflight
@@ -28,6 +34,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", require("./routes/users"));
 app.use("/api/items", require("./routes/items"));
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/upload", require("./routes/upload")(upload, cloudinary));
 
 // Start
 app.listen(PORT, () => {
