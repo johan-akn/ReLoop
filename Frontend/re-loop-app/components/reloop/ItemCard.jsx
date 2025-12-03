@@ -29,12 +29,15 @@ export function ItemCard({ item, onCardClick }) {
     }
   }
 
+  // Normaliza o tipo de negócio para aceitar "Doacao" e "Doação"
+  const isDonation = item.tipo_negocio === "Doacao" || item.tipo_negocio === "Doação"
+
   return (
     <div className="item-card" onClick={() => onCardClick(item)}>
       <div className="item-image">
         {item.imagem ? <img src={item.imagem || "/placeholder.svg"} alt={item.titulo} /> : <ImageIcon size={48} />}
-        <span className={`item-badge ${item.tipo_negocio === "Doacao" ? "badge-donation" : "badge-exchange"}`}>
-          {item.tipo_negocio === "Doação" ? "Doação" : "Troca"}
+        <span className={`item-badge ${isDonation ? "badge-donation" : "badge-exchange"}`}>
+          {isDonation ? "Doação" : "Troca"}
         </span>
         <button
           className={`save-btn ${isSaved ? "saved" : ""}`}

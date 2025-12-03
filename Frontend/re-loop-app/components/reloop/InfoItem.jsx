@@ -58,6 +58,10 @@ export function InfoItem({ item, onClose }) {
 
   const data = fullItem
 
+  // Normaliza o tipo de negócio para aceitar "Doacao" e "Doação"
+  const isDonation = data.tipo_negocio === "Doacao" || data.tipo_negocio === "Doação"
+  const isExchange = data.tipo_negocio === "Troca"
+
   const whatsappLink = seller?.telefone
     ? `https://wa.me/${formatPhoneForWhatsApp(seller.telefone)}?text=Olá! Vi seu anúncio "${data.titulo}" no ReLoop e tenho interesse.`
     : null
@@ -80,8 +84,8 @@ export function InfoItem({ item, onClose }) {
         <div className="info-modal-body">
           <div className="info-modal-header">
             <h2 className="info-modal-title">{data.titulo}</h2>
-            <span className={`info-modal-type ${data.tipo_negocio === "Doação" ? "type-doacao" : "type-troca"}`}>
-              {data.tipo_negocio === "Doação" ? "Doação" : "Troca"}
+            <span className={`info-modal-type ${isDonation ? "type-doacao" : "type-troca"}`}>
+              {isDonation ? "Doação" : "Troca"}
             </span>
           </div>
 
@@ -97,7 +101,7 @@ export function InfoItem({ item, onClose }) {
           <p className="info-modal-description">{data.descricao}</p>
 
           {console.log("Checando troca_por:", data.tipo_negocio, data.troca_por)}
-          {data.tipo_negocio === "Troca" && data.troca_por && String(data.troca_por).trim() !== "" && (
+          {isExchange && data.troca_por && String(data.troca_por).trim() !== "" && (
             <div className="info-exchange-box">
               <span className="info-exchange-icon">↔</span>
               <div>

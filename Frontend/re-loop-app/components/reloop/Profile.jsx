@@ -281,7 +281,9 @@ export function Profile() {
                     </div>
                     <div className="user-item-info">
                       <h4 className="user-item-title">{item.titulo}</h4>
-                      <p className="user-item-type">{item.tipo_negocio}</p>
+                      <p className="user-item-type">
+                        {item.tipo_negocio === "Doacao" || item.tipo_negocio === "Doação" ? "Doação" : "Troca"}
+                      </p>
                     </div>
                     <div className="user-item-actions">
                       <button className="item-action-btn edit" onClick={() => handleEditItem(item)} title="Editar">
@@ -401,7 +403,9 @@ export function Profile() {
                 <div className="toggle-group">
                   <button
                     type="button"
-                    className={`toggle-option ${editingItem.tipo_negocio === "Doacao" ? "active" : ""}`}
+                    className={`toggle-option ${
+                      editingItem.tipo_negocio === "Doacao" || editingItem.tipo_negocio === "Doação" ? "active" : ""
+                    }`}
                     onClick={() => setEditingItem({ ...editingItem, tipo_negocio: "Doacao", troca_por: "" })}
                   >
                     Doação
