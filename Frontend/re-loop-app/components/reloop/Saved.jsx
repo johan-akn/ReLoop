@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { ArrowLeft } from "lucide-react"
-import { useState } from "react"
-import { useGlobal } from "../../context/global-context"
-import { ItemCard } from "./ItemCard"
-import { InfoItem } from "./InfoItem"
+import { ArrowLeft, Container } from "lucide-react";
+import { useState } from "react";
+import { useGlobal } from "../../context/global-context";
+import { ItemCard } from "./ItemCard";
+import { InfoItem } from "./InfoItem";
 
 export function Saved() {
-  const { getSavedItems, navigate } = useGlobal()
-  const savedItems = getSavedItems()
-  const [selectedItem, setSelectedItem] = useState(null)
+  const { getSavedItems, navigate } = useGlobal();
+  const savedItems = getSavedItems();
+  const [selectedItem, setSelectedItem] = useState(null);
 
   return (
     <div className="saved-page">
@@ -24,20 +24,31 @@ export function Saved() {
         {savedItems.length === 0 ? (
           <div className="empty-state">
             <p className="empty-text">Você ainda não salvou nenhum item.</p>
-            <button className="btn btn-primary" onClick={() => navigate("home")}>
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate("home")}
+            >
               Explorar Itens
             </button>
           </div>
         ) : (
-          <div className="items-grid">
-            {savedItems.map((item) => (
-              <ItemCard key={item.id_item} item={item} onCardClick={setSelectedItem} />
-            ))}
+          <div className="saved-container">
+            <div className="itemgrid-saved">
+              {savedItems.map((item) => (
+                <ItemCard
+                  key={item.id_item}
+                  item={item}
+                  onCardClick={setSelectedItem}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
 
-      {selectedItem && <InfoItem item={selectedItem} onClose={() => setSelectedItem(null)} />}
+      {selectedItem && (
+        <InfoItem item={selectedItem} onClose={() => setSelectedItem(null)} />
+      )}
     </div>
-  )
+  );
 }

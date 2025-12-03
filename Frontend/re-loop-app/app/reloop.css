@@ -43,6 +43,12 @@ body {
   letter-spacing: -0.02em;
 }
 
+.logo-branca-home{
+  width: 10%;
+  margin-bottom: -4rem;
+  margin-top: -2rem;
+}
+
 .logo-text {
   display: flex;
   align-items: center;
@@ -117,15 +123,23 @@ body {
   width: 40%;
   gap: 0.75rem;
   /* margin: 0 auto; */
-  font-size: 1.125rem;
+  font-size: 2.0rem;
   width: 40%;
+  font-weight: 700;
+  color: #E6D3B5;
+}
+
+.btn-botao{
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 1rem;
 }
 
 .botoes-lading{
   border-radius: 8px;
   width: 100%;
   display: flex;
-  justify-content: center;
+  margin-left: 20%;
 }
 
 .landing-page {
@@ -169,20 +183,20 @@ body {
 }
 
 .landing-tagline {
-  font-size: 2.5rem;
+  font-size: 3.7rem;
   color: #212842;
-  font-weight: 300;
   opacity: 0.9;
   margin-bottom: 1rem;
   margin-left: 8%;
+  font-weight: 900;
 }
 
 .landing-description {
   color: #212842;
-  font-size: 1.2rem;
-  max-width: 540px;
+  font-size: 1.5rem;
+  max-width: 580px;
   margin-left: 8%;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 }
 
 .auth-page {
@@ -206,7 +220,7 @@ body {
 
 .auth-subtitle {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin-top: 1rem;
 }
 
@@ -349,7 +363,7 @@ body {
   color: var(--text-light);
   font-size: 1.5rem;
   font-weight: 600;
-  margin-top: 1rem;
+  margin-top: 0.3rem;
 }
 
 .profile-member-since {
@@ -625,6 +639,17 @@ body {
   padding-bottom: 80px;
 }
 
+.empty-state{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: rgba(255, 255, 255, 0.5);
+  gap: 1rem;
+  text-align: center;
+  margin-top: 15rem;
+}
 .top-bar {
   display: flex;
   align-items: center;
@@ -789,6 +814,29 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
+}
+
+.itemgrid-saved{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.saved-page {
+  overflow-x: hidden;
+
+}
+
+.saved-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: auto;
+  padding: 1rem 2rem 2rem;
+  overflow-x: hidden;
 }
 
 .item-card {

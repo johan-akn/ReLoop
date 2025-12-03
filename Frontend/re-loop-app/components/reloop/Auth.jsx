@@ -52,7 +52,7 @@ export function Auth() {
     <div className="auth-page">
       <div className="auth-container">
         <div className="auth-header">
-          <Logo size="large" />
+          <img src="./public/Reloop_branca.svg" alt="Reloop Logo" className="auth-logo" />
           <p className="auth-subtitle">{isLogin ? "Bem-vindo de volta!" : "Crie sua conta"}</p>
         </div>
 
@@ -147,7 +147,7 @@ export function Auth() {
             </div>
           )}
 
-          <button type="submit" className="btn btn-primary btn-large submit-btn">
+          <button type="submit" className="btn btn-primary auth-submit-btn btn-botao">
             {isLogin ? "Entrar" : "Criar Conta"}
           </button>
         </form>

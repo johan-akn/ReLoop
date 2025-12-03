@@ -18,11 +18,11 @@ export function Landing() {
             />
           </div>
           <div className="texto-landing">
-            <h1 className="landing-tagline">
-              Dê Nova Vida ao Que Você Não Usa -{" "}
-              <strong style={{}}>Entre no Reloop</strong>
+            <h1 className="landing-tagline" >
+              Dê Nova Vida ao Que Você Não Usa {" "}
+              <strong style={{ color: "#6dd9c7", fontWeight: "900" }}> - Entre no Reloop</strong>
             </h1>
-            <p className="landing-description">
+            <p className="landing-description" style={{ fontWeight: "700" }}>
               Junte-se à nossa comunidade de consumidores conscientes. Dê uma
               segunda vida aos seus itens ou encontre tesouros de outras pessoas.
             </p>
@@ -31,6 +31,7 @@ export function Landing() {
         <div className="botoes-lading">
           <button
             className="btn btn-primary btn-large"
+            style={{ background: "linear-gradient(90deg, #0F1A3A, #A6F7E9)" }}
             onClick={() => navigate("auth")}
           >
             Começar

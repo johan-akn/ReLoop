@@ -7,6 +7,12 @@ import { Logo } from "./Logo"
 import { ItemCard } from "./ItemCard"
 import { InfoItem } from "./InfoItem"
 
+export function Profile() {
+  const {
+    currentUser
+  } = useGlobal()}
+
+
 const categories = ["Todos", "Roupas", "Eletrônicos", "Livros", "Casa", "Esportes"]
 const businessTypes = ["Todos", "Doação", "Troca"]
 
@@ -39,7 +45,7 @@ const categoryComparisonMap = {
 }
 
 export function Home() {
-  const { items = [], navigate, currentView } = useGlobal()
+  const { items = [], navigate, currentView, currentUser } = useGlobal()
   const [activeCategory, setActiveCategory] = useState("Todos")
   const [activeType, setActiveType] = useState("Todos")
   const [searchQuery, setSearchQuery] = useState("")
@@ -77,14 +83,22 @@ export function Home() {
     return matchesCategory && matchesType && matchesSearch
   })
 
+  
+
   return (
     <div className="home-page">
       <header className="top-bar">
-        <Logo size="medium" />
+        <img src="./public/Reloop_branca.svg" alt="Reloop Logo" className="logo-branca-home" />
         <div className="top-bar-actions">
           <button className="icon-btn" onClick={() => navigate("add-item")}>
             <Plus size={20} />
           </button>
+          <button className="icon-btn" onClick={() => navigate("saved")}>
+            <Heart size={20} />
+          </button>
+          <h2 className="profile-name">
+            Olá, {currentUser?.nome}
+          </h2>
           <button className="icon-btn" onClick={() => navigate("profile")}>
             <User size={20} />
           </button>
