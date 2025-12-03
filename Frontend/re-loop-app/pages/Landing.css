@@ -1,0 +1,60 @@
+/* Landing Page Styles */
+
+.landing-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  background-color: #E6D3B5;
+}
+
+.img-landing {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.landing-content {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.landing-image {
+  width: 90%;
+  margin-left: 10%;
+  margin-top: 10%;
+}
+
+.landing-logo {
+  width: 550px;
+  margin-left: 4%;
+  margin-bottom: -12rem;
+}
+
+.texto-logo {
+  margin-left: 3%;
+}
+
+.landing-tagline {
+  font-size: 3.7rem;
+  color: #212842;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+  margin-left: 8%;
+  font-weight: 900;
+}
+
+.landing-description {
+  color: #212842;
+  font-size: 1.5rem;
+  max-width: 580px;
+  margin-left: 8%;
+  margin-bottom: 2rem;
+}
+
+.botoes-lading {
+  border-radius: 8px;
+  width: 100%;
+  display: flex;
+  margin-left: 20%;
+}

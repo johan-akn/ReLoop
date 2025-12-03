@@ -1,0 +1,189 @@
+/* InfoItem Styles */
+
+.info-modal {
+  width: 100%;
+  max-width: 720px;
+  max-height: 85vh;
+  overflow: hidden;
+  background-color: var(--secondary-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+  .info-modal {
+    grid-template-columns: 1fr;
+    max-width: 95vw;
+  }
+
+.info-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.info-modal-image {
+  background: #e8e5de;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.info-modal-image img {
+  max-width: 100%;
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.info-modal-placeholder {
+  width: 100%;
+  height: 260px;
+  background: rgba(0,0,0,0.05);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.info-modal-body {
+  padding: 53px 16px 20px 16px;
+  overflow-y: auto;
+}
+
+.info-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.info-modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.info-modal-type {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.info-modal-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.info-tag-category,
+.info-tag-condition {
+  background: rgba(0,0,0,0.06);
+  color: var(--text-dark);
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.info-modal-divider {
+  border-top: 1px solid rgba(0,0,0,0.1);
+  margin: 12px 0;
+}
+
+.info-modal-description {
+  color: var(--text-dark);
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+.info-exchange-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(0,0,0,0.04);
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.info-exchange-icon {
+  font-weight: 700;
+}
+
+.info-exchange-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.info-exchange-text {
+  font-size: 0.95rem;
+}
+
+.info-seller-section {
+  margin-top: 46%;
+}
+
+.info-seller-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0,0,0,0.04);
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+.info-seller-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-seller-details {
+  flex: 1;
+}
+
+.info-seller-name {
+  font-weight: 700;
+}
+
+.info-seller-phone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.info-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #25D366;
+  color: white;
+  text-decoration: none;
+}

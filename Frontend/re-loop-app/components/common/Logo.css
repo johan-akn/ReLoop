@@ -1,0 +1,32 @@
+/* Logo Styles */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-light);
+  letter-spacing: -0.02em;
+}
+
+.logo-branca-home{
+  width: 10%;
+  margin-bottom: -4rem;
+  margin-top: -2rem;
+}
+
+.logo-text {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 -2px;
+}
+
+.logo.dark {
+  color: var(--text-dark);
+}

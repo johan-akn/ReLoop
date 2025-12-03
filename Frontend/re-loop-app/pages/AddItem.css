@@ -1,0 +1,20 @@
+/* AddItem Styles */
+
+.add-item-page {
+  min-height: 100vh;
+  background-color: var(--primary-bg);
+}
+
+.add-item-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.add-item-content {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}

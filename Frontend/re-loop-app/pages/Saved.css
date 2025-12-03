@@ -1,0 +1,18 @@
+/* Saved Styles */
+
+.saved-page {
+  overflow-x: hidden;
+
+}
+
+.saved-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: auto;
+  padding: 1rem 2rem 2rem;
+  overflow-x: hidden;
+}
