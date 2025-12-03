@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import { useLocation, useNavigate as useRRNavigate } from "react-router-dom"
 import { UsersAPI, ItemsAPI, AuthAPI } from "@/src/apiService"
+import { Toast } from "@/components/reloop/Toast"
 
 const GlobalContext = createContext(undefined)
 
@@ -42,6 +43,18 @@ export function GlobalProvider({ children }) {
   const [users, setUsers] = useState([])
   const [itemP, setItems] = useState([])
   const [savedItems, setSavedItems] = useState([])
+  const [toasts, setToasts] = useState([])
+
+  // Função para exibir toast
+  const showToast = (message, type = "success", duration = 3000) => {
+    const id = Date.now()
+    setToasts((prev) => [...prev, { id, message, type, duration }])
+  }
+
+  // Função para remover toast
+  const removeToast = (id) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id))
+  }
 
   // Load initial data
   useEffect(() => {
@@ -119,14 +132,17 @@ export function GlobalProvider({ children }) {
         if (!users.length) {
           try { setUsers(await UsersAPI.list()) } catch {}
         }
+        showToast("Login realizado com sucesso!", "success")
         navigate("home", { replace: true })
         return true
       } else {
         console.error("Login falhou: resposta não contém user ou token", resp)
+        showToast("Email ou senha inválidos", "error")
         return false
       }
     } catch (e) {
       console.error("Erro no login:", e)
+      showToast("Erro ao realizar login. Tente novamente.", "error")
       return false
     }
   }
@@ -137,10 +153,12 @@ export function GlobalProvider({ children }) {
       setUsers([...users, created])
       setCurrentUser(created)
       setIsAuthenticated(true)
+      showToast("Conta criada com sucesso!", "success")
       navigate("home", { replace: true })
       return true
     } catch (e) {
       console.error("Erro ao registrar:", e)
+      showToast("Erro ao criar conta. Tente novamente.", "error")
       return false
     }
   }
@@ -166,8 +184,10 @@ export function GlobalProvider({ children }) {
       const updated = await UsersAPI.update(currentUser.id_usuario, userData)
       setCurrentUser(updated)
       setUsers(users.map((u) => (u.id_usuario === updated.id_usuario ? updated : u)))
+      showToast("Perfil atualizado com sucesso!", "success")
     } catch (e) {
       console.error("Erro ao atualizar usuário:", e)
+      showToast("Erro ao atualizar perfil. Tente novamente.", "error")
     }
   }
 
@@ -193,8 +213,12 @@ export function GlobalProvider({ children }) {
       }
       const created = await ItemsAPI.create(payload)
       setItems([...itemP, created])
+      showToast("Item adicionado com sucesso!", "success")
+      return true
     } catch (e) {
       console.error("Erro ao criar produto:", e)
+      showToast("Erro ao adicionar item. Tente novamente.", "error")
+      return false
     }
   }
 
@@ -202,8 +226,10 @@ export function GlobalProvider({ children }) {
     try {
       const updated = await ItemsAPI.update(itemId, itemData)
       setItems(itemP.map((p) => (p.id_item === itemId ? updated : p)))
+      showToast("Item atualizado com sucesso!", "success")
     } catch (e) {
       console.error("Erro ao atualizar produto:", e)
+      showToast("Erro ao atualizar item. Tente novamente.", "error")
     }
   }
 
@@ -212,8 +238,10 @@ export function GlobalProvider({ children }) {
       await ItemsAPI.remove(itemId)
       setItems(itemP.filter((p) => p.id_item !== itemId))
       setSavedItems(savedItems.filter((id) => id !== itemId))
+      showToast("Item excluído com sucesso!", "success")
     } catch (e) {
       console.error("Erro ao excluir produto:", e)
+      showToast("Erro ao excluir item. Tente novamente.", "error")
     }
   }
 
@@ -267,9 +295,21 @@ export function GlobalProvider({ children }) {
         isItemSaved,
         getSavedItems,
         getUserById,
+        showToast,
       }}
     >
       {children}
+      <div className="toast-container">
+        {toasts.map((toast) => (
+          <Toast
+            key={toast.id}
+            message={toast.message}
+            type={toast.type}
+            duration={toast.duration}
+            onClose={() => removeToast(toast.id)}
+          />
+        ))}
+      </div>
     </GlobalContext.Provider>
   )
 }

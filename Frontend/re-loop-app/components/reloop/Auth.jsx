@@ -6,7 +6,7 @@ import { useGlobal } from "../../context/global-context"
 import { Logo } from "./Logo"
 
 export function Auth() {
-  const { login, register } = useGlobal()
+  const { login, register, showToast } = useGlobal()
   const [isLogin, setIsLogin] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
@@ -31,12 +31,10 @@ export function Auth() {
 
     if (isLogin) {
       const success = await login(formData.email, formData.senha)
-      if (!success) {
-        setError("Email ou senha inválidos")
-      }
+      // O toast é exibido dentro da função login
     } else {
       if (formData.senha !== formData.confirmPassword) {
-        setError("As senhas não coincidem")
+        showToast("As senhas não coincidem", "error")
         return
       }
       await register({
@@ -45,6 +43,7 @@ export function Auth() {
         senha: formData.senha,
         telefone: formData.telefone,
       })
+      // O toast é exibido dentro da função register
     }
   }
 
@@ -55,8 +54,6 @@ export function Auth() {
           <img src="./public/Reloop_branca.svg" alt="Reloop Logo" className="auth-logo" />
           <p className="auth-subtitle">{isLogin ? "Bem-vindo de volta!" : "Crie sua conta"}</p>
         </div>
-
-        {error && <p className="auth-error">{error}</p>}
 
         <form className="auth-form" onSubmit={handleSubmit}>
           {!isLogin && (

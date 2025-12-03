@@ -98,9 +98,9 @@ export function Home() {
           <button className="icon-btn" onClick={() => navigate("saved")}>
             <Heart size={20} />
           </button>
-          <h2 className="profile-name">
+          <span className="welcome-text">
             Olá, {currentUser?.nome}
-          </h2>
+          </span>
           <button className="icon-btn" onClick={() => navigate("profile")}>
             <User size={20} />
           </button>

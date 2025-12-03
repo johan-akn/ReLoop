@@ -6,7 +6,7 @@ import { uploadImage } from "../../src/apiService"
 import { useGlobal } from "../../context/global-context"
 
 export function LoopAI() {
-  const { currentUser } = useGlobal()
+  const { currentUser, showToast } = useGlobal()
   const [showModal, setShowModal] = useState(false)
   const [image, setImage] = useState(null)
   const [imageFile, setImageFile] = useState(null)
@@ -31,7 +31,7 @@ export function LoopAI() {
 
   const handleAnalyze = async () => {
     if (!imageFile) {
-      setError("Por favor, selecione uma imagem primeiro.")
+      showToast("Por favor, selecione uma imagem primeiro.", "warning")
       return
     }
 
@@ -56,8 +56,10 @@ export function LoopAI() {
 
       const data = await response.json()
       setAnalysis(data.analysis)
+      showToast("Análise concluída com sucesso!", "success")
     } catch (err) {
       console.error("Erro:", err)
+      showToast("Erro ao analisar a imagem. Tente novamente.", "error")
       setError("Erro ao analisar a imagem. Tente novamente.")
     } finally {
       setUploading(false)

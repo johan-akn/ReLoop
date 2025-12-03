@@ -16,8 +16,18 @@ const getCategoryLabel = (categoria) => {
 }
 
 export function ItemCard({ item, onCardClick }) {
-  const { toggleSaveItem, isItemSaved } = useGlobal()
+  const { toggleSaveItem, isItemSaved, showToast } = useGlobal()
   const isSaved = isItemSaved(item.id_item)
+
+  const handleSaveToggle = (e) => {
+    e.stopPropagation()
+    toggleSaveItem(item.id_item)
+    if (isSaved) {
+      showToast("Item removido dos salvos", "info")
+    } else {
+      showToast("Item salvo com sucesso!", "success")
+    }
+  }
 
   return (
     <div className="item-card" onClick={() => onCardClick(item)}>
@@ -28,10 +38,7 @@ export function ItemCard({ item, onCardClick }) {
         </span>
         <button
           className={`save-btn ${isSaved ? "saved" : ""}`}
-          onClick={(e) => {
-            e.stopPropagation()
-            toggleSaveItem(item.id_item)
-          }}
+          onClick={handleSaveToggle}
         >
           <Heart size={18} fill={isSaved ? "currentColor" : "none"} />
         </button>

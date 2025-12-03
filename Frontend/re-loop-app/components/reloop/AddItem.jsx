@@ -6,7 +6,7 @@ import { useGlobal } from "../../context/global-context"
 import { uploadImage } from "../../src/apiService"
 
 export function AddItem() {
-  const { addItem, navigate } = useGlobal()
+  const { addItem, navigate, showToast } = useGlobal()
   const [uploading, setUploading] = useState(false)
   const [formData, setFormData] = useState({
     titulo: "",
@@ -44,7 +44,7 @@ export function AddItem() {
       }
 
       // Adiciona o item com a URL da imagem do Cloudinary
-      addItem({
+      const success = await addItem({
         titulo: formData.titulo,
         descricao: formData.descricao,
         tipo_negocio: formData.tipo_negocio,
@@ -54,11 +54,12 @@ export function AddItem() {
         troca_por: formData.troca_por,
       })
       
-      alert("Item adicionado com sucesso!")
-      navigate("home")
+      if (success) {
+        navigate("home")
+      }
     } catch (error) {
       console.error("Erro ao adicionar item:", error)
-      alert("Erro ao fazer upload da imagem. Tente novamente.")
+      showToast("Erro ao fazer upload da imagem. Tente novamente.", "error")
     } finally {
       setUploading(false)
     }

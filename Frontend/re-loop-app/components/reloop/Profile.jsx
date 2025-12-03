@@ -20,9 +20,11 @@ export function Profile() {
 
   const [isEditing, setIsEditing] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
   const [showItemsModal, setShowItemsModal] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
   const [deleteItemId, setDeleteItemId] = useState(null)
+  const [toggleStatusItemId, setToggleStatusItemId] = useState(null)
   const [uploading, setUploading] = useState(false)
   const [imageFile, setImageFile] = useState(null)
   const [userData, setUserData] = useState({
@@ -47,6 +49,7 @@ export function Profile() {
 
   const handleLogout = () => {
     logout()
+    setShowLogoutModal(false)
   }
 
   const handleDeleteAccount = () => {
@@ -110,6 +113,7 @@ export function Profile() {
 
   const handleToggleStatus = (itemId) => {
     toggleItemStatus(itemId)
+    setToggleStatusItemId(null)
   }
 
   return (
@@ -126,12 +130,8 @@ export function Profile() {
         <div className="profile-avatar-section">
           <div className="profile-avatar">
             <User size={48} />
-            <button className="avatar-edit-btn">
-              <Camera size={16} />
-            </button>
           </div>
           <h2 className="profile-name">{currentUser?.nome}</h2>
-          <p className="profile-member-since">Membro desde 2024</p>
         </div>
 
         <button className="btn btn-primary submit-btn" onClick={() => setShowItemsModal(true)}>
@@ -202,7 +202,7 @@ export function Profile() {
         </div>
 
         <div className="danger-zone">
-          <button className="btn btn-logout" onClick={handleLogout}>
+          <button className="btn btn-logout" onClick={() => setShowLogoutModal(true)}>
             <LogOut size={18} />
             Sair
           </button>
@@ -213,6 +213,25 @@ export function Profile() {
           </button>
         </div>
       </div>
+
+      {showLogoutModal && (
+        <div className="modal-overlay" onClick={() => setShowLogoutModal(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="modal-title">Confirmar Saída?</h3>
+            <p className="modal-text">
+              Você será desconectado da sua conta. Deseja continuar?
+            </p>
+            <div className="modal-actions">
+              <button className="btn btn-secondary" onClick={() => setShowLogoutModal(false)}>
+                Cancelar
+              </button>
+              <button className="btn btn-logout" onClick={handleLogout}>
+                Sair
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showDeleteModal && (
         <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
@@ -270,7 +289,7 @@ export function Profile() {
                       </button>
                       <button
                         className={`item-action-btn status ${item.status === "finalizado" ? "active" : ""}`}
-                        onClick={() => handleToggleStatus(item.id_item)}
+                        onClick={() => setToggleStatusItemId(item.id_item)}
                         title={item.status === "finalizado" ? "Marcar como disponível" : "Marcar como finalizado"}
                       >
                         <CheckCircle size={16} />
@@ -435,6 +454,27 @@ export function Profile() {
               </button>
               <button className="btn btn-danger" onClick={() => handleDeleteItem(deleteItemId)}>
                 Excluir Item
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {toggleStatusItemId && (
+        <div className="modal-overlay" onClick={() => setToggleStatusItemId(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="modal-title">Alterar Status do Item?</h3>
+            <p className="modal-text">
+              {userItems.find(item => item.id_item === toggleStatusItemId)?.status === "finalizado"
+                ? "Deseja marcar este item como disponível novamente?"
+                : "Deseja marcar este item como finalizado?"}
+            </p>
+            <div className="modal-actions">
+              <button className="btn btn-secondary" onClick={() => setToggleStatusItemId(null)}>
+                Cancelar
+              </button>
+              <button className="btn btn-primary" onClick={() => handleToggleStatus(toggleStatusItemId)}>
+                Confirmar
               </button>
             </div>
           </div>
