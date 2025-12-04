@@ -19,6 +19,7 @@ Com isso, o sistema facilita o reaproveitamento de objetos e fortalece a colabor
 - pgAdmin 4
 - Nodejs
 - Canva
+- API Gemini
 
 ## Integrantes👨‍💻👩‍💻
 
