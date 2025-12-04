@@ -46,3 +46,18 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
+
+.banner-home {
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-banner {
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}

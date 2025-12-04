@@ -103,6 +103,10 @@ export function Home() {
  </div>
  </header>
 
+ <div className="banner-home">
+ <img src="/banner_reloop.svg" alt="Banner Home" className="home-banner" />
+ </div>
+
  <section className="filter-section">
  <div className="search-container">
  <div className="search-wrapper">
