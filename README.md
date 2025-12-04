@@ -20,6 +20,7 @@ Com isso, o sistema facilita o reaproveitamento de objetos e fortalece a colabor
 - Nodejs
 - Canva
 - API Gemini
+- API Cloudinary para armazenamento de imagens
 
 ## Integrantes👨‍💻👩‍💻
 
